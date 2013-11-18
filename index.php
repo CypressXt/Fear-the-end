@@ -1,8 +1,7 @@
 <?php
 
 session_start();
-
-include_once '/secrets/sqlConnect.php';
+include_once "/home/cypress/www/htdocs/fear-the-end-secrets/sqlConnect.php";
 
 $l = isset($_GET['l']) ? $_GET['l'] : false;
 

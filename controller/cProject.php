@@ -1,6 +1,6 @@
 <?php
 
-include_once '/secrets/ftp.php';
+include_once '/home/cypress/www/htdocs/fear-the-end-secrets/ftp.php';
 include_once 'model/Project.php';
 include_once 'model/ProjectManager.php';
 include_once 'model/MemberManager.php';
