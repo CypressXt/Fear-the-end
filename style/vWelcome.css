@@ -1,0 +1,38 @@
+/* 
+    Document   : vWelcome
+    Created on : 8 août 2013, 16:06:02
+    Author     : clement
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.domainTable{
+	margin-top:30px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.txtTable{
+	text-align:left;
+	padding-left:25px;
+	font-size:14px;
+}
+
+.txtTitleTable{
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 19px;
+	line-height: 18px;
+	color: #34393b;
+}
+
+.imgTable{
+	height:166px;
+	padding:0px;
+	text-align:center;
+}
+
+.imgTable:hover{
+	background-image:url(picture/over.jpg);
+	background-position:bottom center;
+	background-repeat:no-repeat;
+}

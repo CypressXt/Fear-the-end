@@ -1,0 +1,12 @@
+#########################################
+#        Dev's Notes FTE 2013           #
+#        Naytskai | Cypress             #
+#########################################
+
+TODO
+
+- It/fil d'Arianne
+- new project
+- English
+- remove shity buttons
+- largeur 1200px

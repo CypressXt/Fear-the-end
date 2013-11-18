@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteRule ([a-zA-Z]+)/([0-9]+)/([a-zA-Z]+)$ /index.php?l=$1&id=$2&subpage=$3$4 [L]
+RewriteRule ([a-zA-Z]+)/([a-zA-Z_/s]+)$ /index.php?l=$1&tag=$2 [L]
+RewriteRule ([a-zA-Z]+)/([0-9]+)$ /index.php?l=$1&id=$2 [L]
+RewriteRule ([a-zA-Z]+)\.fte$ /index.php?l=$1 [L]
