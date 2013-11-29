@@ -121,7 +121,7 @@ if (isset($_POST['publish']) && $_SESSION && !isset($_GET['subpage'])) {
     }
 }
 
-//displaying selected project
+
 if (isset($_GET['id']) && !isset($_GET['subpage'])) {
     $projectShowed = $projectManager->getProjectById($_GET['id']);
     $date = date_create($projectShowed->getDate());
@@ -151,7 +151,11 @@ if (isset($_GET['id']) && !isset($_GET['subpage'])) {
 }
 
 
-//displaying project's subpages
+//###########################
+//displaying selected project
+//###########################
+
+//displaying project's team
 if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "team") {
     $projectShowed = $projectManager->getProjectById($_GET['id']);
     $date = date_create($projectShowed->getDate());
@@ -161,7 +165,7 @@ if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "team")
     $userArray = $memberManager->getMembreByProject($_GET['id']);
     $intro = userArrayToHTML($userArray);
     $introduction = $intro;
-    $content = "";
+    $content = newTeamUser();
     include_once 'view/vIT_Project.php';
 }
 
@@ -175,5 +179,27 @@ function userArrayToHTML($userArray) {
                          </tr>";
     }
     $html = $html.$table."</table>" ;
+    return $html;
+}
+
+
+function newTeamUser(){
+    $html = '<form>
+                <table>
+                    <tr>
+                        <td><label for="memberMail">Add a new team member:</label></td>
+                    </tr>
+                    <tr>
+                        <td><input id="memberMail" type="text" name="memberMail" placeholder="contact@email.com" value="" /></td>
+                        <td>
+                            <select name="roles">
+                                <option>Sponsor</option>
+                                <option selected>Developer</option>
+                                <option></option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+             </form>';
     return $html;
 }
