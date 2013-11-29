@@ -76,7 +76,8 @@ if (isset($_POST['publish']) && $_SESSION && !isset($_GET['subpage'])) {
         $uploadBannerRDY = true;
         list($wBan, $hBan, $typeBan, $attrBan) = getimagesize($cachedFileBann);
         if (empty($cachedFileBann) || $wBan > 1200 || $hBan > 400) {
-            $label_err_projectFileBann = "Invalid project banner (size 1200x400px) !<br/>Image size " . $wBan . "px - " . $hBan . "</br>" . $fileNameBann;
+            $label_err_projectFileBann = "Invalid project banner (size 1200x400px) !<br/>
+                                          Image size " . $wBan . "px - " . $hBan . "</br>" . $fileNameBann;
             $ok = FALSE;
         }
     }
@@ -204,6 +205,9 @@ function newTeamUser(MemberManager $memberManager){
                                     }
                                 }
      $html = $html.         '</select>
+                        </td>
+                        <td>
+                            <input type="submit" name="addTeam" class="btn center" value="Add">
                         </td>
                     </tr>
                 </table>
