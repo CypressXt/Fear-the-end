@@ -165,7 +165,7 @@ if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "team")
     $userArray = $memberManager->getMembreByProject($_GET['id']);
     $intro = userArrayToHTML($userArray);
     $introduction = $intro;
-    $content = newTeamUser();
+    $content = newTeamUser($memberManager);
     include_once 'view/vIT_Project.php';
 }
 
@@ -183,7 +183,9 @@ function userArrayToHTML($userArray) {
 }
 
 
-function newTeamUser(){
+function newTeamUser(MemberManager $memberManager){
+    $functionArray = array();
+    $functionArray = $memberManager->getAllMemberFunction();
     $html = '<form>
                 <table>
                     <tr>
@@ -192,11 +194,11 @@ function newTeamUser(){
                     <tr>
                         <td><input id="memberMail" type="text" name="memberMail" placeholder="contact@email.com" value="" /></td>
                         <td>
-                            <select name="roles">
-                                <option>Sponsor</option>
-                                <option selected>Developer</option>
-                                <option></option>
-                            </select>
+                            <select name="roles">';
+                                for($i = 0; $i < count($functionArray); $i++){
+                                   $html = $html.'<option>'.$functionArray[$i]['function'].'</option>'; 
+                                }
+     $html = $html.         '</select>
                         </td>
                     </tr>
                 </table>

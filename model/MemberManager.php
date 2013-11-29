@@ -83,4 +83,16 @@ class MemberManager {
         }
         return $memberArray;
     }
+    
+    public function getAllMemberFunction(){
+        $functionArray = array();
+        $i = 0;
+        $q = $this->_db->prepare('SELECT * FROM  `user_function`');
+        $q->execute();
+        while ($data = $q->fetch(PDO::FETCH_ASSOC)) {
+                $functionArray[$i]= $data;
+                $i++;
+        }
+        return $functionArray;
+    }
 }
