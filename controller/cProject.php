@@ -169,6 +169,7 @@ if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "team")
     include_once 'view/vIT_Project.php';
 }
 
+// Displaying all members with their functions
 function userArrayToHTML($userArray) {
     $html = '';
     $table = "<table>";
@@ -182,7 +183,7 @@ function userArrayToHTML($userArray) {
     return $html;
 }
 
-
+// Create a select with all member's functions
 function newTeamUser(MemberManager $memberManager){
     $functionArray = array();
     $functionArray = $memberManager->getAllMemberFunction();
@@ -196,7 +197,11 @@ function newTeamUser(MemberManager $memberManager){
                         <td>
                             <select name="roles">';
                                 for($i = 0; $i < count($functionArray); $i++){
-                                   $html = $html.'<option>'.$functionArray[$i]['function'].'</option>'; 
+                                    if($functionArray[$i]['function']=="Developer"){
+                                        $html = $html.'<option selected>'.$functionArray[$i]['function'].'</option>';
+                                    }else{
+                                        $html = $html.'<option>'.$functionArray[$i]['function'].'</option>'; 
+                                    }
                                 }
      $html = $html.         '</select>
                         </td>
