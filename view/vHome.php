@@ -45,7 +45,7 @@
             if ($rand == 2) {
                 ?>
                 <source src="http://srcdata.vacau.com/fear-the-end/clubbed_to_death.ogg" type="audio/ogg">
-                <source src="http://srcdata.vacau.com/fear-the-end/clubbed%20to%20death.mp3.mp3" type="audio/mpeg">
+                <source src="http://srcdata.vacau.com/fear-the-end/clubbed%20to%20death.mp3" type="audio/mpeg">
             <? }?>
 
             Your browser does not support the audio element.
