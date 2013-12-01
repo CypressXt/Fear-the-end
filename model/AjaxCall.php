@@ -12,4 +12,11 @@ if ($_POST['methode'] == "addMemberTeam" && $_POST['projectID'] != "" && $_POST[
     $memberManager = new MemberManager($db);
     $memberManager->linkMemberProject($projectID, $userName, $memberFunction, $memberManager);
 }
+
+if ($_POST['methode'] == "delMemberTeam" && $_POST['projectID'] != "" && $_POST['userName'] != "") {
+    $projectID = $_POST['projectID'];
+    $userName = $_POST['userName'];
+    $memberManager = new MemberManager($db);
+    $memberManager->unlinkMemberProject($projectID, $userName);
+}
 ?>

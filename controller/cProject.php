@@ -136,7 +136,6 @@ if (isset($_GET['id']) && !isset($_GET['subpage'])) {
 } else if ($_GET['l'] == "newProject") {
     if ($_SESSION) {
         $tagsList = "";
-        $allTags = array();
         $allTags = $projectManager->getAllTags();
         foreach ($allTags as $tag) {
             if ($tagsList != "") {
@@ -173,17 +172,16 @@ if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "team")
 function userArrayToHTML($userArray, ProjectManager $projectManager) {
     $projectShowed = $projectManager->getProjectById($_GET['id']);
     $html = '';
-    $table = "<table>";
+    $table = "<table class=\"tableTeamMembers\">";
     if ($_SESSION['loggedUserObject'] != null && unserialize($_SESSION['loggedUserObject'])->getId() == $projectShowed->getFk_auteur()) {
         for ($nb = 0; $nb < count($userArray); $nb++) {
             $table = $table . "<tr>
                             <td>" . ucfirst($userArray[$nb]->getLogin()) . "</td>
-                            <td>" . $userArray[$nb]->getFunction() . "</td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td>Remove</td>
-                         </tr>";
+                            <td>" . $userArray[$nb]->getFunction() . "</td>".
+                            '<td>
+                                <input class="btn center blue" value="remove" onclick="delMemberTeam(' . $_GET['id'] . ',\''.$userArray[$nb]->getLogin().'\')">
+                            </td>'
+                         ."</tr>";
         }
     } else {
         for ($nb = 0; $nb < count($userArray); $nb++) {
@@ -197,7 +195,7 @@ function userArrayToHTML($userArray, ProjectManager $projectManager) {
     return $html;
 }
 
-// Create a select with all member's functions
+// Create a select with all member"s functions
 function newTeamUser(MemberManager $memberManager, ProjectManager $projectManager) {
     $projectShowed = $projectManager->getProjectById($_GET['id']);
     if ($_SESSION['loggedUserObject'] != null && unserialize($_SESSION['loggedUserObject'])->getId() == $projectShowed->getFk_auteur()) {
@@ -211,17 +209,17 @@ function newTeamUser(MemberManager $memberManager, ProjectManager $projectManage
                         <td><input id="userName" type="text" name="userName" placeholder="username" value="" /></td>
                         <td>
                             <select id="roles" name="roles">';
-        for ($i = 0; $i < count($functionArray); $i++) {
-            if ($functionArray[$i]['function'] == "Developer") {
-                $html = $html . '<option selected value="' . $functionArray[$i]['id_function'] . '">' . $functionArray[$i]['function'] . '</option>';
-            } else {
-                $html = $html . '<option value="' . $functionArray[$i]['id_function'] . '">' . $functionArray[$i]['function'] . '</option>';
-            }
-        }
+                                for ($i = 0; $i < count($functionArray); $i++) {
+                                    if ($functionArray[$i]['function'] == "Developer") {
+                                        $html = $html . '<option selected value="' . $functionArray[$i]['id_function'] . '">' . $functionArray[$i]['function'] . '</option>';
+                                    } else {
+                                        $html = $html . '<option value="' . $functionArray[$i]['id_function'] . '">' . $functionArray[$i]['function'] . '</option>';
+                                    }
+                                }
         $html = $html . '</select>
                         </td>
                         <td>
-                            <input type="submit" name="addTeam" class="btn center" value="Add" onclick="addMemberTeam(' . $_GET['id'] . ',document)">
+                            <input type="submit" name="addTeam" class="btn center blue" value="Add" onclick="addMemberTeam(' . $_GET['id'] . ',document)">
                         </td>
                     </tr>
                 </table>

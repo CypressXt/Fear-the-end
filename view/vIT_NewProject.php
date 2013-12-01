@@ -80,7 +80,7 @@
             <td class="left">
             </td>
             <td>
-                <input type="submit" name="publish" class="btn center" value="Créer">
+                <input type="submit" name="publish" class="btn center blue" value="Créer">
             </td>
         </tr>
     </table>

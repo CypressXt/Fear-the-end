@@ -121,3 +121,7 @@
 .projectContent p{
     margin-left: 2em;
 }
+
+.tableTeamMembers{
+    width: 100%;
+}

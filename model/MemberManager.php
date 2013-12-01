@@ -123,5 +123,18 @@ class MemberManager {
             }
         }
     }
+    
+    public function unlinkMemberProject($projectID, $userName) {
+        $newMember = $this->getMembreByName($userName);
+        if ($newMember != null) {
+            $idUser = $newMember->getId();
+            if ($projectID != "" && $idUser != "") {
+                $q = $this->_db->prepare('DELETE FROM `r_project_user` WHERE `fk_project` = :projectID and `fk_user` =:idUser ');
+                $q->bindValue(':projectID', $projectID, PDO::PARAM_STR);
+                $q->bindValue(':idUser', $idUser, PDO::PARAM_STR);
+                $q->execute();
+            }
+        }
+    }
 
 }
