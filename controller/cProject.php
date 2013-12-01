@@ -155,7 +155,6 @@ if (isset($_GET['id']) && !isset($_GET['subpage'])) {
 //###########################
 //displaying selected project
 //###########################
-
 //displaying project's team
 if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "team") {
     $projectShowed = $projectManager->getProjectById($_GET['id']);
@@ -164,53 +163,71 @@ if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "team")
     $autName = $memberManager->getMembreById($projectShowed->getFk_auteur())->getLogin();
     $description = "Project's Team";
     $userArray = $memberManager->getMembreByProject($_GET['id']);
-    $intro = userArrayToHTML($userArray);
+    $intro = userArrayToHTML($userArray, $projectManager);
     $introduction = $intro;
-    $content = newTeamUser($memberManager);
+    $content = newTeamUser($memberManager, $projectManager);
     include_once 'view/vIT_Project.php';
 }
 
 // Displaying all members with their functions
-function userArrayToHTML($userArray) {
+function userArrayToHTML($userArray, ProjectManager $projectManager) {
+    $projectShowed = $projectManager->getProjectById($_GET['id']);
     $html = '';
     $table = "<table>";
-    for($nb = 0; $nb < count($userArray); $nb++){
-        $table = $table."<tr>
-                            <td>".$userArray[$nb]->getLogin()."</td>
-                            <td>".$userArray[$nb]->getFunction()."</td>
+    if ($_SESSION['loggedUserObject'] != null && unserialize($_SESSION['loggedUserObject'])->getId() == $projectShowed->getFk_auteur()) {
+        for ($nb = 0; $nb < count($userArray); $nb++) {
+            $table = $table . "<tr>
+                            <td>" . ucfirst($userArray[$nb]->getLogin()) . "</td>
+                            <td>" . $userArray[$nb]->getFunction() . "</td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td>Remove</td>
                          </tr>";
+        }
+    } else {
+        for ($nb = 0; $nb < count($userArray); $nb++) {
+            $table = $table . "<tr>
+                            <td>" . ucfirst($userArray[$nb]->getLogin()) . "</td>
+                            <td>" . $userArray[$nb]->getFunction() . "</td>
+                         </tr>";
+        }
     }
-    $html = $html.$table."</table>" ;
+    $html = $html . $table . "</table>";
     return $html;
 }
 
 // Create a select with all member's functions
-function newTeamUser(MemberManager $memberManager){
-    $functionArray = array();
-    $functionArray = $memberManager->getAllMemberFunction();
-    $html = '<form>
+function newTeamUser(MemberManager $memberManager, ProjectManager $projectManager) {
+    $projectShowed = $projectManager->getProjectById($_GET['id']);
+    if ($_SESSION['loggedUserObject'] != null && unserialize($_SESSION['loggedUserObject'])->getId() == $projectShowed->getFk_auteur()) {
+        $functionArray = $memberManager->getAllMemberFunction();
+        $html = '
                 <table>
                     <tr>
                         <td><label for="memberMail">Add a new team member:</label></td>
                     </tr>
                     <tr>
-                        <td><input id="memberMail" type="text" name="memberMail" placeholder="contact@email.com" value="" /></td>
+                        <td><input id="userName" type="text" name="userName" placeholder="username" value="" /></td>
                         <td>
-                            <select name="roles">';
-                                for($i = 0; $i < count($functionArray); $i++){
-                                    if($functionArray[$i]['function']=="Developer"){
-                                        $html = $html.'<option selected>'.$functionArray[$i]['function'].'</option>';
-                                    }else{
-                                        $html = $html.'<option>'.$functionArray[$i]['function'].'</option>'; 
-                                    }
-                                }
-     $html = $html.         '</select>
+                            <select id="roles" name="roles">';
+        for ($i = 0; $i < count($functionArray); $i++) {
+            if ($functionArray[$i]['function'] == "Developer") {
+                $html = $html . '<option selected value="' . $functionArray[$i]['id_function'] . '">' . $functionArray[$i]['function'] . '</option>';
+            } else {
+                $html = $html . '<option value="' . $functionArray[$i]['id_function'] . '">' . $functionArray[$i]['function'] . '</option>';
+            }
+        }
+        $html = $html . '</select>
                         </td>
                         <td>
-                            <input type="submit" name="addTeam" class="btn center" value="Add">
+                            <input type="submit" name="addTeam" class="btn center" value="Add" onclick="addMemberTeam(' . $_GET['id'] . ',document)">
                         </td>
                     </tr>
                 </table>
-             </form>';
+             ';
+    } else {
+        $html = "<p>You need to own this project before adding new members</p>";
+    }
     return $html;
 }
