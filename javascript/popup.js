@@ -10,7 +10,7 @@ $(document).ready(function(){
     //});
  
     // hide popup when user clicks on close button
-    $('.close-btn').click(function(){
+    $('.close').click(function(){
         $('.overlay-bg').hide(); // hide the overlay
     });  
 });

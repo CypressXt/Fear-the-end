@@ -10,6 +10,7 @@
         <script type="text/javascript" src="/javascript/tags/bin/jquery-1.8.3-min.js"></script>
         <script type="text/javascript" src="/javascript/tags/bin/magicsuggest-1.3.1-min.js"></script>
         <script type="text/javascript" src="/javascript/post.js"></script>
+        <script type="text/javascript" src="/javascript/popup.js"></script>
         <title>IT</title>
 <!--        <meta name="viewport" content="width=device-width, initial-scale=0.0, minimum-scale=0.8, maximum-scale=2.0" />-->
     </head>

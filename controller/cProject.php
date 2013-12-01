@@ -112,13 +112,14 @@ if (isset($_POST['publish']) && $_SESSION && !isset($_GET['subpage'])) {
         $projectManager->linkProjectAndtags($tagsArray, $idNewProject);
         header('Location: http://fear-the-end.com/IT.fte');
     } else {
-        echo 'Error while uploading the new project ! <br>';
-        echo $label_err_projectName . "<br>";
-        echo $label_err_projectTechnologie . "<br>";
-        echo $label_err_projectSlogant . "<br>";
-        echo $label_err_projectDescription . "<br>";
-        echo $label_err_projectFileBann . "<br>";
-        echo $label_err_projectFilePict . "<br>";
+        $label_err = 'Error while creating the new project ! <br>';
+        $label_err = $label_err . $label_err_projectName . "<br>";
+        $label_err = $label_err . $label_err_projectTechnologie . "<br>";
+        $label_err = $label_err . $label_err_projectSlogant . "<br>";
+        $label_err = $label_err . $label_err_projectDescription . "<br>";
+        $label_err = $label_err . $label_err_projectFileBann . "<br>";
+        $label_err = $label_err . $label_err_projectFilePict . "<br>";
+        include_once 'model/popup.php';
     }
 }
 
@@ -177,11 +178,11 @@ function userArrayToHTML($userArray, ProjectManager $projectManager) {
         for ($nb = 0; $nb < count($userArray); $nb++) {
             $table = $table . "<tr>
                             <td>" . ucfirst($userArray[$nb]->getLogin()) . "</td>
-                            <td>" . $userArray[$nb]->getFunction() . "</td>".
-                            '<td>
-                                <input class="btn center blue" value="remove" onclick="delMemberTeam(' . $_GET['id'] . ',\''.$userArray[$nb]->getLogin().'\')">
+                            <td>" . $userArray[$nb]->getFunction() . "</td>" .
+                    '<td>
+                                <input class="btn center blue" value="Remove" onclick="delMemberTeam(' . $_GET['id'] . ',\'' . $userArray[$nb]->getLogin() . '\')">
                             </td>'
-                         ."</tr>";
+                    . "</tr>";
         }
     } else {
         for ($nb = 0; $nb < count($userArray); $nb++) {
@@ -208,18 +209,18 @@ function newTeamUser(MemberManager $memberManager, ProjectManager $projectManage
                     <tr>
                         <td><input id="userName" type="text" name="userName" placeholder="username" value="" /></td>
                         <td>
-                            <select id="roles" name="roles">';
-                                for ($i = 0; $i < count($functionArray); $i++) {
-                                    if ($functionArray[$i]['function'] == "Developer") {
-                                        $html = $html . '<option selected value="' . $functionArray[$i]['id_function'] . '">' . $functionArray[$i]['function'] . '</option>';
-                                    } else {
-                                        $html = $html . '<option value="' . $functionArray[$i]['id_function'] . '">' . $functionArray[$i]['function'] . '</option>';
-                                    }
-                                }
+                            <select id="roles" name="roles" class="styled-select">';
+        for ($i = 0; $i < count($functionArray); $i++) {
+            if ($functionArray[$i]['function'] == "Developer") {
+                $html = $html . '<option selected value="' . $functionArray[$i]['id_function'] . '">' . $functionArray[$i]['function'] . '</option>';
+            } else {
+                $html = $html . '<option value="' . $functionArray[$i]['id_function'] . '">' . $functionArray[$i]['function'] . '</option>';
+            }
+        }
         $html = $html . '</select>
                         </td>
                         <td>
-                            <input type="submit" name="addTeam" class="btn center blue" value="Add" onclick="addMemberTeam(' . $_GET['id'] . ',document)">
+                            <input name="addTeam" class="btn center blue" value="Add" onclick="addMemberTeam(' . $_GET['id'] . ',document)">
                         </td>
                     </tr>
                 </table>
