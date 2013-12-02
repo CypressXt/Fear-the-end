@@ -7,10 +7,10 @@
     <div class="projectNav">
         <ul>
             <a href="/project/<?php echo $projectShowed->getId();?>">Home</a>
-            <a href="#">Worklog</a>
-            <a href="#">Media</a>
+            <a href="/project/<?php echo $projectShowed->getId();?>/worklog">Worklog</a>
+            <a href="/project/<?php echo $projectShowed->getId();?>/media">Media</a>
             <a href="/project/<?php echo $projectShowed->getId();?>/team">Team</a>
-            <a href="#">About</a>
+            <a href="/project/<?php echo $projectShowed->getId();?>/about">About</a>
         </ul>
         <div class="projectSpecs">
             Created: <?php echo $dateFormated; ?> | Instigator: <?php echo ucfirst($autName); ?> | 

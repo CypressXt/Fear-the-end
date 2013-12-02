@@ -155,6 +155,8 @@ if (isset($_GET['id']) && !isset($_GET['subpage'])) {
 //###########################
 //displaying selected project
 //###########################
+
+
 //displaying project's team
 if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "team") {
     $projectShowed = $projectManager->getProjectById($_GET['id']);
@@ -168,6 +170,59 @@ if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "team")
     $content = newTeamUser($memberManager, $projectManager);
     include_once 'view/vIT_Project.php';
 }
+
+
+//displaying project about
+if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "about") {
+    $projectShowed = $projectManager->getProjectById($_GET['id']);
+    $date = date_create($projectShowed->getDate());
+    $dateFormated = date_format($date, "d.m.Y");
+    $autName = $memberManager->getMembreById($projectShowed->getFk_auteur())->getLogin();
+    $userArray = $memberManager->getMembreByProject($_GET['id']);
+    
+    
+    
+    
+    $description = "Project About";
+    $introduction = "";
+    $content = "";
+    include_once 'view/vIT_Project.php';
+}
+
+//displaying project's media
+if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "media") {
+    $projectShowed = $projectManager->getProjectById($_GET['id']);
+    $date = date_create($projectShowed->getDate());
+    $dateFormated = date_format($date, "d.m.Y");
+    $autName = $memberManager->getMembreById($projectShowed->getFk_auteur())->getLogin();
+    $userArray = $memberManager->getMembreByProject($_GET['id']);
+    
+    
+    
+    
+    $description = "Project's Media";
+    $introduction = "";
+    $content = "";
+    include_once 'view/vIT_Project.php';
+}
+
+//displaying project's worklog
+if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "worklog") {
+    $projectShowed = $projectManager->getProjectById($_GET['id']);
+    $date = date_create($projectShowed->getDate());
+    $dateFormated = date_format($date, "d.m.Y");
+    $autName = $memberManager->getMembreById($projectShowed->getFk_auteur())->getLogin();
+    $userArray = $memberManager->getMembreByProject($_GET['id']);
+    
+    
+    
+    
+    $description = "Project's worklog";
+    $introduction = "";
+    $content = "";
+    include_once 'view/vIT_Project.php';
+}
+
 
 // Displaying all members with their functions
 function userArrayToHTML($userArray, ProjectManager $projectManager) {
