@@ -155,8 +155,6 @@ if (isset($_GET['id']) && !isset($_GET['subpage'])) {
 //###########################
 //displaying selected project
 //###########################
-
-
 //displaying project's team
 if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "team") {
     $projectShowed = $projectManager->getProjectById($_GET['id']);
@@ -179,13 +177,13 @@ if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "about"
     $dateFormated = date_format($date, "d.m.Y");
     $autName = $memberManager->getMembreById($projectShowed->getFk_auteur())->getLogin();
     $userArray = $memberManager->getMembreByProject($_GET['id']);
-    
-    
-    
-    
+
+
+
+
     $description = "Project About";
-    $introduction = "";
-    $content = "";
+    $introduction = getProjectStatus($projectShowed);
+    $content = changeProjectStatus($projectShowed, $projectManager);
     include_once 'view/vIT_Project.php';
 }
 
@@ -196,10 +194,10 @@ if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "media"
     $dateFormated = date_format($date, "d.m.Y");
     $autName = $memberManager->getMembreById($projectShowed->getFk_auteur())->getLogin();
     $userArray = $memberManager->getMembreByProject($_GET['id']);
-    
-    
-    
-    
+
+
+
+
     $description = "Project's Media";
     $introduction = "";
     $content = "";
@@ -213,23 +211,24 @@ if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "worklo
     $dateFormated = date_format($date, "d.m.Y");
     $autName = $memberManager->getMembreById($projectShowed->getFk_auteur())->getLogin();
     $userArray = $memberManager->getMembreByProject($_GET['id']);
-    
-    
-    
-    
-    $description = "Project's worklog";
+
+
+
+
+    $description = "Project's Worklog";
     $introduction = "";
     $content = "";
     include_once 'view/vIT_Project.php';
 }
 
-
+//###########################
+//display helpers functions
+//###########################
 // Displaying all members with their functions
 function userArrayToHTML($userArray, ProjectManager $projectManager) {
-    $projectShowed = $projectManager->getProjectById($_GET['id']);
     $html = '';
     $table = "<table class=\"tableTeamMembers\">";
-    if ($_SESSION['loggedUserObject'] != null && unserialize($_SESSION['loggedUserObject'])->getId() == $projectShowed->getFk_auteur()) {
+    if (checkUserAutority()) {
         for ($nb = 0; $nb < count($userArray); $nb++) {
             $table = $table . "<tr>
                             <td>" . ucfirst($userArray[$nb]->getLogin()) . "</td>
@@ -253,8 +252,7 @@ function userArrayToHTML($userArray, ProjectManager $projectManager) {
 
 // Create a select with all member"s functions
 function newTeamUser(MemberManager $memberManager, ProjectManager $projectManager) {
-    $projectShowed = $projectManager->getProjectById($_GET['id']);
-    if ($_SESSION['loggedUserObject'] != null && unserialize($_SESSION['loggedUserObject'])->getId() == $projectShowed->getFk_auteur()) {
+    if (checkUserAutority()) {
         $functionArray = $memberManager->getAllMemberFunction();
         $html = '
                 <table>
@@ -284,4 +282,67 @@ function newTeamUser(MemberManager $memberManager, ProjectManager $projectManage
         $html = "<p>You need to own this project before adding new members</p>";
     }
     return $html;
+}
+
+// display the status of a project
+function getProjectStatus(Project $project) {
+    $html = "State: ";
+    $html = $html . $project->getStatus();
+    return $html;
+}
+
+// Create a select with all project's status
+function changeProjectStatus(Project $project, ProjectManager $projectManager) {
+    $statusArray = $projectManager->getAllStatus();
+    if (checkUserAutority()) {
+        $html = '
+                <table>
+                    <tr>
+                        <td><label for="memberMail">Change the project status:</label></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select id="status" name="status" class="styled-select">';
+        for ($i = 0; $i < count($statusArray); $i++) {
+            if ($statusArray[$i]['status'] == "Recruiting") {
+                $html = $html . '<option selected value="' . $statusArray[$i]['id_status'] . '">' . $statusArray[$i]['status'] . '</option>';
+            } else {
+                $html = $html . '<option value="' . $statusArray[$i]['id_status'] . '">' . $statusArray[$i]['status'] . '</option>';
+            }
+        }
+        $html = $html . '</select>
+                        </td>
+                        <td>
+                            <input name="changeStatus" class="btn center blue" value="Change" onclick="changeProjectStatus(' . $_GET['id'] . ',document)">
+                        </td>
+                    </tr>
+                </table>
+             ';
+    } else {
+        $html = "<p>You need to own this project before changing its state.</p>";
+    }
+    return $html;
+}
+
+// check if the loged user as the autority on the current project
+function checkUserAutority() {
+    include "/home/cypress/www/htdocs/fear-the-end-secrets/sqlConnect.php";
+    $projectManager = new ProjectManager($db);
+    $memberManager = new MemberManager($db);
+    $project = $projectManager->getProjectById($_GET['id']);
+    $isDeveloper = false;
+    $userArrayOnProject = $memberManager->getMembreByProject($project->getId());
+    for ($i = 0; $i < count($userArrayOnProject); $i++) {
+        if ($_SESSION['loggedUserObject'] != null && ($userArrayOnProject[$i]->getId() == unserialize($_SESSION['loggedUserObject'])->getId())&&($userArrayOnProject[$i]->getFunction() == "Developer")) {
+            $isDeveloper = true;
+        }
+    }
+
+    $res = false;
+    if (($_SESSION['loggedUserObject'] != null && unserialize($_SESSION['loggedUserObject'])->getId() == $project->getFk_auteur()) || $isDeveloper) {
+        $res = true;
+    } else {
+        $res = false;
+    }
+    return $res;
 }

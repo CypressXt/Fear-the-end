@@ -29,3 +29,15 @@ function delMemberTeam(projectID, username) {
         }
     });
 }
+
+function changeProjectStatus(projectID, document) {
+    var functionSelect = document.getElementById("status");
+    var idStatus = functionSelect.options[functionSelect.selectedIndex].value;
+    $.post('/model/AjaxCall.php', {methode: "changeProjectStatus", projectID: projectID, statusID: idStatus}, function(e) {
+        if (e !== "") {
+            alert(e);
+        } else {
+            location.reload();
+        }
+    });
+}

@@ -61,9 +61,10 @@ class ProjectManager {
     }
 
     public function getProjectById($projectID) {
-        $q = $this->_db->prepare('SELECT id_project, title, description, introduction, content, image, banner, fk_auteur, date, fk_status, tag FROM r_tag_project
+        $q = $this->_db->prepare('SELECT * FROM r_tag_project
         inner join project on fk_project = id_project
         inner join tag on fk_tag = id_tag
+        inner join status_project on id_status = fk_status
         WHERE id_project = :id');
         $q->bindValue(':id', $projectID, PDO::PARAM_STR);
 
@@ -147,13 +148,32 @@ class ProjectManager {
                 $requestInsertV = $requestInsertV . ", " . "($idTagsArray[$b], $idNewProject) ";
             }
         }
-        $finalRequest = $requestInsert.$requestInsertV;
+        $finalRequest = $requestInsert . $requestInsertV;
         $q2 = $this->_db->prepare($finalRequest);
         $q2->execute() or die('Impossible D éxécuter la requete');
     }
 
+    public function getAllStatus() {
+        $allStatus = array();
+        $q = $this->_db->prepare('SELECT * FROM status_project');
+        $q->execute();
+
+
+        while ($data = $q->fetch(PDO::FETCH_ASSOC)) {
+            $allStatus[] = $data;
+        }
+        return $allStatus;
+    }
+    
+    public function changeProjectStatus($projectID, $statusID){
+        $q = $this->_db->prepare('UPDATE `project` SET `fk_status`=:statusID WHERE `id_project` =:projectID ');
+        $q->bindValue(':statusID', $statusID, PDO::PARAM_STR);
+        $q->bindValue(':projectID', $projectID, PDO::PARAM_STR);
+        $q->execute();        
+    }
+
     public function getProjectByAutor($autor) {
-//NOT SUPPORTED YET
+        //NOT SUPPORTED YET
     }
 
 }
