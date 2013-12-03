@@ -163,7 +163,7 @@ if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "team")
     $autName = $memberManager->getMembreById($projectShowed->getFk_auteur())->getLogin();
     $description = "Project's Team";
     $userArray = $memberManager->getMembreByProject($_GET['id']);
-    $intro = userArrayToHTML($userArray, $projectManager);
+    $intro = userArrayToHTML($userArray, $projectManager, $memberManager);
     $introduction = $intro;
     $content = newTeamUser($memberManager, $projectManager);
     include_once 'view/vIT_Project.php';
@@ -225,7 +225,7 @@ if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "worklo
 //display helpers functions
 //###########################
 // Displaying all members with their functions
-function userArrayToHTML($userArray, ProjectManager $projectManager) {
+function userArrayToHTML($userArray, ProjectManager $projectManager, MemberManager $memberManager) {
     $html = '';
     $table = "<table class=\"tableTeamMembers\">";
     if (checkUserAutority()) {
@@ -234,7 +234,7 @@ function userArrayToHTML($userArray, ProjectManager $projectManager) {
                             <td>" . ucfirst($userArray[$nb]->getLogin()) . "</td>
                             <td>" . $userArray[$nb]->getFunction() . "</td>" .
                     '<td>
-                                <input class="btn center blue" value="Remove" onclick="delMemberTeam(' . $_GET['id'] . ',\'' . $userArray[$nb]->getLogin() . '\')">
+                                <input class="btn center blue" value="Remove" onclick="delMemberTeam(' . $_GET['id'] . ','.$memberManager->getFunctionID($userArray[$nb]->getFunction()).',\'' .$userArray[$nb]->getLogin() . '\')">
                             </td>'
                     . "</tr>";
         }

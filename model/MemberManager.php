@@ -108,6 +108,14 @@ class MemberManager {
         }
         return $functionArray;
     }
+    
+    public function getFunctionID($functionName){
+        $q = $this->_db->prepare('SELECT * FROM  `user_function` where function like :function');
+        $q->bindValue(':function', $functionName, PDO::PARAM_STR);
+        $q->execute();
+        $data = $q->fetch(PDO::FETCH_ASSOC);
+        return $data[id_function];          
+    }
 
     public function linkMemberProject($projectID, $userName, $memberFunction) {
         $newMember = $this->getMembreByName($userName);
@@ -124,14 +132,15 @@ class MemberManager {
         }
     }
     
-    public function unlinkMemberProject($projectID, $userName) {
+    public function unlinkMemberProject($projectID,$userFunctionID, $userName) {
         $newMember = $this->getMembreByName($userName);
         if ($newMember != null) {
             $idUser = $newMember->getId();
             if ($projectID != "" && $idUser != "") {
-                $q = $this->_db->prepare('DELETE FROM `r_project_user` WHERE `fk_project` = :projectID and `fk_user` =:idUser ');
+                $q = $this->_db->prepare('DELETE FROM `r_project_user` WHERE `fk_project` = :projectID and `fk_user` =:idUser and `fk_user_function` =:userFunctionID ');
                 $q->bindValue(':projectID', $projectID, PDO::PARAM_STR);
                 $q->bindValue(':idUser', $idUser, PDO::PARAM_STR);
+                $q->bindValue(':userFunctionID', $userFunctionID, PDO::PARAM_STR);
                 $q->execute();
             }
         }

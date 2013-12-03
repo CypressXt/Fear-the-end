@@ -10,7 +10,7 @@ function addMemberTeam(projectID, document) {
     var userName = document.getElementById("userName").value;
 
 
-    $.post('/model/AjaxCall.php', {methode: "addMemberTeam", projectID: projectID, idUserFunction: idUserFunction, userName: userName}, function(e) {
+    $.post('/controller/AjaxCall.php', {methode: "addMemberTeam", projectID: projectID, idUserFunction: idUserFunction, userName: userName}, function(e) {
         if (e !== "") {
             alert(e);
         } else {
@@ -20,8 +20,8 @@ function addMemberTeam(projectID, document) {
 }
 
 
-function delMemberTeam(projectID, username) {
-    $.post('/model/AjaxCall.php', {methode: "delMemberTeam", projectID: projectID, userName: username}, function(e) {
+function delMemberTeam(projectID,userFunctionID, username) {
+    $.post('/controller/AjaxCall.php', {methode: "delMemberTeam", projectID: projectID,userFunctionID: userFunctionID, userName: username}, function(e) {
         if (e !== "") {
             alert(e);
         } else {
@@ -33,7 +33,7 @@ function delMemberTeam(projectID, username) {
 function changeProjectStatus(projectID, document) {
     var functionSelect = document.getElementById("status");
     var idStatus = functionSelect.options[functionSelect.selectedIndex].value;
-    $.post('/model/AjaxCall.php', {methode: "changeProjectStatus", projectID: projectID, statusID: idStatus}, function(e) {
+    $.post('/controller/AjaxCall.php', {methode: "changeProjectStatus", projectID: projectID, statusID: idStatus}, function(e) {
         if (e !== "") {
             alert(e);
         } else {
