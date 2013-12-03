@@ -42,35 +42,35 @@ if (isset($_POST['publish']) && $_SESSION && !isset($_GET['subpage'])) {
 
 
     if (strlen($title) > 20 || empty($title)) {
-        $label_err_projectName = "Invalid project Name ! (max 20 chars)<br/>";
+        $label_err_projectName = "Invalid project Name ! (max 20 chars)<br/><br/>";
         $ok = FALSE;
     }
 
     if (empty($tags)) {
-        $label_err_projectTechnologie = "Invalid project technologie !<br/>";
+        $label_err_projectTechnologie = "Invalid project technologie !<br/><br/>";
         $ok = FALSE;
     }
 
     if (empty($description)) {
-        $label_err_projectSlogant = "Invalid project slogant !<br/>";
+        $label_err_projectSlogant = "Invalid project slogant !<br/><br/>";
         $ok = FALSE;
     }
 
     if (empty($content)) {
-        $label_err_projectDescription = "Invalid project description !<br/>";
+        $label_err_projectDescription = "Invalid project description !<br/><br/>";
         $ok = FALSE;
     }
 
 
     if (empty($cachedFilePict)) {
-        $label_err_projectFilePict = "Invalid project picture !<br/>";
+        $label_err_projectFilePict = "(The default project picture is used)<br/>";
         $fileNamePict = "defaultPicture.png";
     } else {
         $uploadPictureRDY = true;
     }
 
     if (empty($cachedFileBann)) {
-        $label_err_projectFilePict = "Invalid project banner !<br/>";
+        $label_err_projectFileBann = "(The default project banner is used)<br/>";
         $fileNameBann = "defaultBanner.jpg";
     } else {
         $uploadBannerRDY = true;
@@ -112,13 +112,13 @@ if (isset($_POST['publish']) && $_SESSION && !isset($_GET['subpage'])) {
         $projectManager->linkProjectAndtags($tagsArray, $idNewProject);
         header('Location: http://fear-the-end.com/IT.fte');
     } else {
-        $label_err = 'Error while creating the new project ! <br>';
-        $label_err = $label_err . $label_err_projectName . "<br>";
-        $label_err = $label_err . $label_err_projectTechnologie . "<br>";
-        $label_err = $label_err . $label_err_projectSlogant . "<br>";
-        $label_err = $label_err . $label_err_projectDescription . "<br>";
-        $label_err = $label_err . $label_err_projectFileBann . "<br>";
-        $label_err = $label_err . $label_err_projectFilePict . "<br>";
+        $label_err = '<h4>Error while creating the new project !</h4>';
+        $label_err = $label_err . $label_err_projectName;
+        $label_err = $label_err . $label_err_projectTechnologie;
+        $label_err = $label_err . $label_err_projectSlogant;
+        $label_err = $label_err . $label_err_projectDescription;
+        $label_err = $label_err . $label_err_projectFileBann;
+        $label_err = $label_err . $label_err_projectFilePict;
         include_once 'model/popup.php';
     }
 }
