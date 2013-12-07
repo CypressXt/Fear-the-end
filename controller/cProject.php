@@ -5,6 +5,8 @@ include_once 'model/Project.php';
 include_once 'model/ProjectManager.php';
 include_once 'model/MemberManager.php';
 include_once 'model/Member.php';
+include_once 'model/Worklog.php';
+include_once 'model/WorklogManager.php';
 
 $label_err_projectName = "";
 $label_err_projectTechnologie = "";
@@ -216,7 +218,7 @@ if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "worklo
 
 
     $description = newWorklogFormular();
-    $introduction = "";
+    $introduction = displayAllWorklogs($db);
     $content = "";
     include_once 'view/vIT_Project.php';
 }
@@ -324,7 +326,7 @@ function changeProjectStatus(Project $project, ProjectManager $projectManager) {
     return $html;
 }
 
-//projectID, userID, document
+//Display a formular for adding new worklogs
 function newWorklogFormular() {
     $html = "Project's Worklog</br></br>";
 
@@ -341,6 +343,28 @@ function newWorklogFormular() {
             </form>
         ';
     }
+    return $html;
+}
+
+function displayAllWorklogs($db){
+    $html = "";
+    $worklogManager = new WorklogManager($db);
+    $memberManager = new MemberManager($db);
+    $worklogArray = $worklogManager->getAllWorklog();
+    for($i = 0; $i<count($worklogArray);$i++){
+        $writer =  ucfirst($memberManager->getMembreById($worklogArray[$i]->getFk_user())->getLogin());
+        $date = date_create($worklogArray[$i]->getDate());
+        $dateFormated = date_format($date, "d.m.Y h:i");
+        $html = $html.'
+            <div class="worklog">
+                <div class="info">Writer: '.$writer.' | Date: '.$dateFormated.'</div>
+                <div class="content">
+                    '.$worklogArray[$i]->getContent().'
+                </div>
+            </div>
+        ';
+    }
+    
     return $html;
 }
 

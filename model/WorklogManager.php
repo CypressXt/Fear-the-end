@@ -40,10 +40,16 @@ class WorklogManager {
         $q->execute();
     }
     
-    
-    
-    
-    
+    public function getAllWorklog(){
+        $allWorklogs = array();
+        $q = $this->_db->prepare('SELECT * FROM `worklog` order by date desc');
+        $q->execute();
+
+        while ($data = $q->fetch(PDO::FETCH_ASSOC)) {
+            $allWorklogs[] = new Worklog($data);
+        }
+        return $allWorklogs;
+    }
     
 }
 

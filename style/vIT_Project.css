@@ -125,3 +125,28 @@
 .tableTeamMembers{
     width: 100%;
 }
+
+.worklog{
+    border-style: solid;
+    border-color: #ooo;
+    border-width: 1px;
+    border-radius: 4px;
+    margin-bottom: 2em;
+}
+
+.worklog .info{
+    width: 50%;
+    padding: 10px;
+    font-size: 12px;
+    border-bottom: 1px solid #000;
+    margin-bottom: 2em;
+}
+
+.worklog .content{
+    padding: 2em;
+}
+
+.worklog .content p{
+    font-family: ubuntu;
+}
+
