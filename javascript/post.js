@@ -41,3 +41,15 @@ function changeProjectStatus(projectID, document) {
         }
     });
 }
+
+function newWorklog(projectID, userID, document) {
+    var workLogTitle = document.getElementById("title").value;
+    var workLogContent = tinyMCE.get('contentWorklog').getContent();
+    $.post('/controller/AjaxCall.php', {methode: "newWorklog", projectID: projectID, userID: userID, workLogTitle: workLogTitle, workLogContent: workLogContent}, function(e) {
+        if (e !== "") {
+            alert(e);
+        } else {
+            location.reload();
+        }
+    });
+}

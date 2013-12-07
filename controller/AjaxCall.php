@@ -5,6 +5,8 @@ include_once '../model/Member.php';
 include_once '../model/MemberManager.php';
 include_once '../model/Project.php';
 include_once '../model/ProjectManager.php';
+include_once '../model/Worklog.php';
+include_once '../model/WorklogManager.php';
 
 
 if ($_POST['methode'] == "addMemberTeam" && $_POST['projectID'] != "" && $_POST['idUserFunction'] != "" && $_POST['userName'] != "") {
@@ -29,5 +31,20 @@ if ($_POST['methode'] == "changeProjectStatus" && $_POST['projectID'] != "" && $
     $statusID = $_POST['statusID'];
     $projectManager = new ProjectManager($db);
     $projectManager->changeProjectStatus($projectID, $statusID);
+}
+
+if ($_POST['methode'] == "newWorklog" && $_POST['projectID'] != "" && $_POST['userID'] != "" && $_POST['workLogTitle'] != "" && $_POST['workLogContent'] != "") {
+    $projectID = $_POST['projectID'];
+    $userID = $_POST['userID'];
+    $workLogTitle = $_POST['workLogTitle'];
+    $workLogContent = $_POST['workLogContent'];
+    $workLogManager = new WorklogManager($db);
+    $dataWorklog = array(
+            'title' => $workLogTitle,
+            'content' => $workLogContent,
+            'fk_user' => $userID,
+            'fk_project' => $projectID);
+    $worklog = new Worklog($dataWorklog);
+    $workLogManager->add($worklog);
 }
 ?>

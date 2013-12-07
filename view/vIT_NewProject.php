@@ -1,7 +1,4 @@
 <?php include_once 'view/vIT_Menu.php'; ?>
-<script>
-    tinymce.init({selector: 'textarea.mce'});
-</script>
 <form class="tableNewProject center" method="post" action="newProject.fte" enctype="multipart/form-data">
     <table>
         <tr>

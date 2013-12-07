@@ -18,14 +18,13 @@ class Project {
     private $_date;
     private $_fk_auteur;
     private $_status;
-    
-     public function __construct($data) {
+
+    public function __construct($data) {
         $this->hydrate($data);
     }
 
-    
     //Setters
-    
+
     public function setId_project($id_project) {
         $this->_id_project = $id_project;
     }
@@ -41,7 +40,7 @@ class Project {
     public function setIntroduction($introduction) {
         $this->_introduction = $introduction;
     }
-    
+
     public function setContent($content) {
         $this->_content = $content;
     }
@@ -74,7 +73,6 @@ class Project {
         $this->_status = $status;
     }
 
-    
     //Getter
 
     public function getId() {
@@ -116,7 +114,7 @@ class Project {
     public function getFk_auteur() {
         return $this->_fk_auteur;
     }
-    
+
     public function getId_project() {
         return $this->_id_project;
     }
@@ -124,13 +122,11 @@ class Project {
     public function getFk_status() {
         return $this->_fk_status;
     }
-    
+
     public function getStatus() {
         return $this->_status;
     }
 
-    
-    
     //Hydrate function
     //----------------
 

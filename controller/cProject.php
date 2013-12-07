@@ -215,7 +215,7 @@ if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "worklo
 
 
 
-    $description = "Project's Worklog";
+    $description = newWorklogFormular();
     $introduction = "";
     $content = "";
     include_once 'view/vIT_Project.php';
@@ -234,7 +234,7 @@ function userArrayToHTML($userArray, ProjectManager $projectManager, MemberManag
                             <td>" . ucfirst($userArray[$nb]->getLogin()) . "</td>
                             <td>" . $userArray[$nb]->getFunction() . "</td>" .
                     '<td>
-                                <input class="btn center blue" value="Remove" onclick="delMemberTeam(' . $_GET['id'] . ','.$memberManager->getFunctionID($userArray[$nb]->getFunction()).',\'' .$userArray[$nb]->getLogin() . '\')">
+                                <input class="btn center blue" value="Remove" onclick="delMemberTeam(' . $_GET['id'] . ',' . $memberManager->getFunctionID($userArray[$nb]->getFunction()) . ',\'' . $userArray[$nb]->getLogin() . '\')">
                             </td>'
                     . "</tr>";
         }
@@ -324,6 +324,26 @@ function changeProjectStatus(Project $project, ProjectManager $projectManager) {
     return $html;
 }
 
+//projectID, userID, document
+function newWorklogFormular() {
+    $html = "Project's Worklog</br></br>";
+
+    if (checkUserAutority()) {
+        $idUser = unserialize($_SESSION['loggedUserObject'])->getId();
+        $idProject = $_GET['id'];
+        $html = $html . '
+            <form>
+                <label for="title">Title</label>
+                <input id="title" type="text" name="title" value="" /></br></br>
+                <label for="content">Content</label>
+                <textarea id="contentWorklog" name="contentWorklog" class="mce" ></textarea>
+                <input onclick="newWorklog(' . $idProject . ',' . $idUser . ',document)" class="btn center blue" value="Créer">
+            </form>
+        ';
+    }
+    return $html;
+}
+
 // check if the loged user as the autority on the current project
 function checkUserAutority() {
     include "/home/cypress/www/htdocs/fear-the-end-secrets/sqlConnect.php";
@@ -333,7 +353,7 @@ function checkUserAutority() {
     $isDeveloper = false;
     $userArrayOnProject = $memberManager->getMembreByProject($project->getId());
     for ($i = 0; $i < count($userArrayOnProject); $i++) {
-        if ($_SESSION['loggedUserObject'] != null && ($userArrayOnProject[$i]->getId() == unserialize($_SESSION['loggedUserObject'])->getId())&&($userArrayOnProject[$i]->getFunction() == "Developer")) {
+        if ($_SESSION['loggedUserObject'] != null && ($userArrayOnProject[$i]->getId() == unserialize($_SESSION['loggedUserObject'])->getId()) && ($userArrayOnProject[$i]->getFunction() == "Developer")) {
             $isDeveloper = true;
         }
     }
