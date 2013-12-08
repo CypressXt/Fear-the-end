@@ -350,7 +350,9 @@ function displayAllWorklogs($db){
     $html = "";
     $worklogManager = new WorklogManager($db);
     $memberManager = new MemberManager($db);
-    $worklogArray = $worklogManager->getAllWorklog();
+    $projectManager = new ProjectManager($db);
+    $project = $projectManager->getProjectById($_GET['id']);
+    $worklogArray = $worklogManager->getAllWorklogByProject($project);
     for($i = 0; $i<count($worklogArray);$i++){
         $writer =  ucfirst($memberManager->getMembreById($worklogArray[$i]->getFk_user())->getLogin());
         $date = date_create($worklogArray[$i]->getDate());

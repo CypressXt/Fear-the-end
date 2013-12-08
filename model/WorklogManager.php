@@ -51,6 +51,18 @@ class WorklogManager {
         return $allWorklogs;
     }
     
+    public function getAllWorklogByProject(Project $project){
+        $allWorklogs = array();
+        $q = $this->_db->prepare('SELECT * FROM `worklog` where fk_project=:fk_project order by date desc');
+        $q->bindValue(':fk_project', $project->getId(), PDO::PARAM_STR);
+        $q->execute();
+
+        while ($data = $q->fetch(PDO::FETCH_ASSOC)) {
+            $allWorklogs[] = new Worklog($data);
+        }
+        return $allWorklogs;
+    }
+    
 }
 
 ?>
