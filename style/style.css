@@ -115,7 +115,7 @@ input[type="text"], input[type="password"], textarea {
     width: 98%;
     height: 34px;
     color: rgb(102, 102, 102);
-    background: none repeat scroll 0% 0% white;
+    background: white;
     border-width: 1px;
     border-style: solid;
     -moz-border-top-colors: none;
@@ -132,6 +132,10 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
     outline-color: rgb(000, 000, 000);
     outline-width: 2px;
     box-shadow: none;
+}
+
+input:-webkit-autofill {
+     -webkit-box-shadow: 0 0 0px 1000px white inset !important;
 }
 
 /* div centré verticalement */

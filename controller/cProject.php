@@ -336,10 +336,10 @@ function newWorklogFormular() {
         $html = $html . '
             <form>
                 <label for="title">Title</label>
-                <input id="title" type="text" name="title" value="" /></br></br>
+                <input id="title" type="text" name="title"/></br></br>
                 <label for="content">Content</label>
-                <textarea id="contentWorklog" name="contentWorklog" class="mce" ></textarea>
-                <input onclick="newWorklog(' . $idProject . ',' . $idUser . ',document)" class="btn center blue" value="Créer">
+                <textarea id="contentWorklog" name="contentWorklog" class="mce"></textarea>
+                <button type="submit" onclick="newWorklog(' . $idProject . ',' . $idUser . ',document)" class="btn center blue">Créer</button>
             </form>
         ';
     }
