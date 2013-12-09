@@ -126,12 +126,25 @@
     width: 100%;
 }
 
+.projectDescription .worklog .info{
+    border-bottom: 1px solid #7faaff !important;
+}
+
+
+
 .worklog{
     border-style: solid;
     border-color: #ooo;
     border-width: 1px;
     border-radius: 4px;
     margin-bottom: 2em;
+}
+
+.worklog .title{
+    padding-left: 0.5em;
+    width: 100%;
+    color: white;
+    font-size: 22px;
 }
 
 .worklog .info{

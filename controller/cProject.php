@@ -220,7 +220,7 @@ if ($_GET['l'] == "project" && isset($_GET['id']) && $_GET['subpage'] == "worklo
     $description = newWorklogFormular();
     $introduction = displayAllWorklogs($db);
     $content = "";
-    include_once 'view/vIT_Project.php';
+    include_once 'view/vIT_ProjectWorklog.php';
 }
 
 //###########################
@@ -357,13 +357,21 @@ function displayAllWorklogs($db){
         $writer =  ucfirst($memberManager->getMembreById($worklogArray[$i]->getFk_user())->getLogin());
         $date = date_create($worklogArray[$i]->getDate());
         $dateFormated = date_format($date, "d.m.Y h:i");
+        if($i%2==0){
+            $html = $html.'<div class="projectIntroduction"><p>';
+        }else{
+            $html = $html.'<div class="projectDescription"><p>';
+        }
         $html = $html.'
             <div class="worklog">
                 <div class="info">Writer: '.$writer.' | Date: '.$dateFormated.'</div>
+                <div class="title">'.$worklogArray[$i]->getTitle().'</div>
                 <div class="content">
                     '.$worklogArray[$i]->getContent().'
                 </div>
             </div>
+            </p>
+        </div>
         ';
     }
     
