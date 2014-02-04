@@ -42,7 +42,7 @@ class WorklogManager {
     
     public function getAllWorklog(){
         $allWorklogs = array();
-        $q = $this->_db->prepare('SELECT * FROM `worklog` order by date desc');
+        $q = $this->_db->prepare('SELECT * FROM `worklog` order by date asc');
         $q->execute();
 
         while ($data = $q->fetch(PDO::FETCH_ASSOC)) {
@@ -53,7 +53,7 @@ class WorklogManager {
     
     public function getAllWorklogByProject(Project $project){
         $allWorklogs = array();
-        $q = $this->_db->prepare('SELECT * FROM `worklog` where fk_project=:fk_project order by date desc');
+        $q = $this->_db->prepare('SELECT * FROM `worklog` where fk_project=:fk_project order by date asc');
         $q->bindValue(':fk_project', $project->getId(), PDO::PARAM_STR);
         $q->execute();
 
